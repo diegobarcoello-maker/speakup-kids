@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>SpeakUp Kids — Inglés para peques</title>
+<meta name="description" content="SpeakUp Kids: inglés para niños de 3 a 10 años. Escuchar, tocar y jugar. Interfaz en español, aprendizaje en inglés. Funciona sin conexión.">
+<meta name="theme-color" content="#FF8A3D">
+<meta name="color-scheme" content="light dark">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SpeakUp Kids">
+<meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+
+<div id="arranque" class="arranque">
+  <div class="arranque-mascota">
+    <svg viewBox="0 0 120 120" width="112" height="112" aria-hidden="true">
+      <circle cx="60" cy="62" r="46" fill="#FFD166"/>
+      <circle cx="45" cy="55" r="9" fill="#fff"/><circle cx="75" cy="55" r="9" fill="#fff"/>
+      <circle cx="46" cy="57" r="4.5" fill="#2B2540"/><circle cx="76" cy="57" r="4.5" fill="#2B2540"/>
+      <path d="M46 78q14 12 28 0" stroke="#2B2540" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="30" cy="70" r="6" fill="#FF9EB5" opacity=".85"/>
+      <circle cx="90" cy="70" r="6" fill="#FF9EB5" opacity=".85"/>
+    </svg>
+  </div>
+  <b>SpeakUp Kids</b>
+  <span>Inglés jugando</span>
+</div>
+
+<a class="skip-link" href="#app">Saltar al contenido</a>
+
+<header class="topbar" id="topbar" hidden>
+  <button class="tbtn" id="btn-atras" type="button" aria-label="Volver">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <div class="topbar-mid" id="topbar-mid"></div>
+  <button class="tbtn" id="btn-padres" type="button" aria-label="Zona de familia">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+  </button>
+</header>
+
+<main id="app" tabindex="-1">
+  <noscript>
+    <div class="aviso-js">
+      <h2>Hay que activar JavaScript</h2>
+      <p>SpeakUp Kids funciona entero dentro del navegador y necesita JavaScript para el audio y los juegos.</p>
+    </div>
+  </noscript>
+</main>
+
+<div id="capa"></div>
+<canvas id="confeti" aria-hidden="true"></canvas>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
