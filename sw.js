@@ -12,9 +12,9 @@ const VERSION = 'speakup-kids-v2';
 const ESENCIALES = [
   './',
   './index.html',
-  './styles.css',
-  './data.js',
-  './app.js',
+  './styles.css?v=2',
+  './data.js?v=2',
+  './app.js?v=2',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
