@@ -127,7 +127,8 @@ Prototipo jugable. Completo y probado:
 
 - Portada con selección de tramo
 - Mapa de mundos con progreso y candados
-- **Animales** (12 palabras) y **Colores** (10 palabras) jugables enteros
+- Los **seis mundos de Peques** jugables enteros: Animales (12), Colores (10), Comida (10),
+  Números (10), Mi familia (8) y Mi cuerpo (8) — **58 palabras**
 - Los cuatro juegos, con estrellas, pegatinas y confeti
 - Álbum de pegatinas
 - Zona de familia: métricas, límite de tiempo diario, voz, velocidad, tema, reinicio
@@ -136,8 +137,14 @@ Prototipo jugable. Completo y probado:
 
 ## Lo siguiente
 
-1. Completar los mundos de Peques (Comida, Números, Familia, Cuerpo) — solo es contenido.
-2. Tramo **Medianos (6–8)**: fonética, palabra escrita, ortografía por arrastre.
-3. Tramo **Grandes (9–10)**: mini-historias, frases y conversación.
-4. Perfiles: varios niños en el mismo aparato.
-5. Ilustraciones SVG propias sustituyendo los emoji, pack por pack.
+1. Tramo **Medianos (6–8)**: fonética, palabra escrita, ortografía por arrastre.
+2. Tramo **Grandes (9–10)**: mini-historias, frases y conversación.
+3. Perfiles: varios niños en el mismo aparato.
+4. Ilustraciones SVG propias sustituyendo los emoji, mundo por mundo.
+5. Más mundos de Peques (la ropa, la casa, el clima, los juguetes).
+
+Los cinco mundos con candado (La escuela, Acciones, Los sonidos, Mini-historias y
+Habla conmigo) están vacíos a propósito: no les falta vocabulario, les faltan
+**mecánicas**. Los cuatro juegos actuales son audio → imagen, que es lo correcto
+para quien no lee; a un niño de 7 que ya lee lo aburren en dos minutos. Medianos
+necesita fonética y ortografía; Grandes, frases y comprensión.
