@@ -7,7 +7,7 @@
    hay y descarga la versión nueva para la próxima vez.
    ============================================================ */
 
-const VERSION = 'speakup-kids-v1';
+const VERSION = 'speakup-kids-v2';
 
 const ESENCIALES = [
   './',

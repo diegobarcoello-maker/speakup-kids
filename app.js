@@ -370,6 +370,9 @@ function vistaMapa() {
        '<b>' + gan + ' pegatina' + (gan === 1 ? '' : 's') + '</b>' +
        '<span class="p">Termina un mundo entero y ganas la suya</span></span>' +
        '<span class="ok" aria-hidden="true">›</span></button>';
+  /* La instalación vive también aquí: tras el primer uso la app arranca
+     en el mapa, y si el botón solo estuviera en la portada nadie lo vería. */
+  h += App.tarjeta(false);
   h += '<p class="nota">¿Otra edad? Toca la flecha ‹ de arriba.</p>';
   return h;
 }
@@ -985,13 +988,18 @@ const App = {
     const ua = navigator.userAgent;
     App.esIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
     App.esAndroid = /Android/.test(ua);
+    /* Chrome en iPhone no puede instalar apps web: solo Safari. */
+    App.esChromeIOS = App.esIOS && /CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+    /* Navegador de dentro de otra app (WhatsApp, Instagram, Facebook…):
+       jamás ofrece instalar. Es la causa nº 1 de "no me sale el botón". */
+    App.enApp = /FBAN|FBAV|FB_IAB|Instagram|Line\/|WhatsApp|Twitter|MicroMessenger|TikTok|; wv\)/i.test(ua);
     App.instalada = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
                     window.navigator.standalone === true;
 
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       App.invitacion = e;
-      if (V.pantalla === 'portada') pinta();
+      pinta();
       if (Padres.abierta) Padres.pinta();
     });
     window.addEventListener('appinstalled', () => {
@@ -1052,6 +1060,27 @@ const App = {
         '<button class="bt" type="button" data-act="instalar">Instalar SpeakUp Kids</button>');
     }
 
+    /* Navegador de dentro de otra app: no hay instalación posible ahí. */
+    if (App.enApp) {
+      return caja('Ábrela en tu navegador',
+        '<p>Estás viéndola dentro de otra aplicación, y desde ahí ningún navegador permite instalar.</p>' +
+        '<ol class="pasos">' +
+          '<li>Toca el menú <b>⋮</b> o <b>···</b> de esta pantalla.</li>' +
+          '<li>Elige <b>Abrir en Chrome</b> o <b>Abrir en el navegador</b>' + (App.esIOS ? ' / <b>Abrir en Safari</b>' : '') + '.</li>' +
+          '<li>Ahí ya te aparecerá la opción de instalar.</li>' +
+        '</ol><p class="fino">También puedes copiar la dirección y pegarla directamente en el navegador.</p>');
+    }
+
+    if (App.esChromeIOS) {
+      return caja('Cámbiate a Safari',
+        '<p>En iPhone y iPad, solo Safari puede instalar aplicaciones web. Chrome y Firefox no tienen esa opción, por decisión de Apple.</p>' +
+        '<ol class="pasos">' +
+          '<li>Copia esta dirección y ábrela en <b>Safari</b>.</li>' +
+          '<li>Toca <b>Compartir</b>, el cuadrado con la flecha hacia arriba.</li>' +
+          '<li>Baja y elige <b>Añadir a pantalla de inicio</b>.</li>' +
+        '</ol>');
+    }
+
     if (App.esIOS) {
       return caja('Instálala en el iPhone o iPad',
         '<ol class="pasos">' +
@@ -1066,16 +1095,16 @@ const App = {
       return caja('Instálala en el Android',
         '<ol class="pasos">' +
           '<li>Toca los <b>tres puntos</b> ⋮ arriba a la derecha de Chrome.</li>' +
-          '<li>Elige <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.</li>' +
-          '<li>Confirma con <b>Instalar</b>.</li>' +
-        '</ol><p class="fino">Si no aparece ninguna de las dos, usa la app un minuto y vuelve a abrir el menú: Chrome la habilita al ver que se usa.</p>');
+          '<li>Elige <b>Añadir a pantalla de inicio</b> (o <b>Instalar aplicación</b>).</li>' +
+          '<li>Confirma con <b>Instalar</b> o <b>Añadir</b>.</li>' +
+        '</ol><p class="fino">Si no aparece: juega un minuto y vuelve a abrir el menú. Y asegúrate de estar en Chrome, no en el navegador de WhatsApp o Instagram — desde ahí nunca sale.</p>');
     }
 
     return caja('Instálala en la computadora',
       '<ol class="pasos">' +
-        '<li>Busca el icono de <b>instalar</b> en la barra de direcciones, a la derecha.</li>' +
-        '<li>Si no está, abre el menú <b>⋮</b> y busca <b>Instalar SpeakUp Kids</b>.</li>' +
-      '</ol><p class="fino">En ventanas de incógnito no se puede instalar, y además no se guarda el progreso.</p>');
+        '<li>En Chrome o Edge, busca el icono de <b>instalar</b> en la barra de direcciones, a la derecha (una pantalla con una flecha).</li>' +
+        '<li>Si no está, abre el menú <b>⋮</b> → <b>Enviar, guardar y compartir</b> → <b>Instalar página como aplicación</b>.</li>' +
+      '</ol><p class="fino">En ventanas de incógnito no se puede instalar, y tampoco se guarda el progreso. Firefox de escritorio no instala apps web.</p>');
   }
 };
 
@@ -1097,6 +1126,6 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else arranca();
 
 /* Se expone lo mínimo, por si quieres depurar desde la consola */
-window.SpeakUpKids = { estado: () => S, ver: V, voz: Voz };
+window.SpeakUpKids = { estado: () => S, ver: V, voz: Voz, app: App, instalar: () => App.instalar() };
 
 })();
