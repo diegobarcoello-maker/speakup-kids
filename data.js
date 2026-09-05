@@ -89,7 +89,7 @@ const MUNDOS = [
   },
   {
     id: 'food', tramo: 'peques', nombre: 'Comida', emoji: '🍎',
-    color: 'sol', activo: false, sticker: '🍓',
+    color: 'sol', activo: true, sticker: '🍓',
     items: [
       { en: 'apple',  es: 'manzana', emoji: '🍎' },
       { en: 'banana', es: 'banana',  emoji: '🍌' },
@@ -105,7 +105,7 @@ const MUNDOS = [
   },
   {
     id: 'numbers', tramo: 'peques', nombre: 'Números', emoji: '🔢',
-    color: 'cielo', activo: false, sticker: '🎯',
+    color: 'cielo', activo: true, sticker: '🎯',
     items: [
       { en: 'one',   es: 'uno',    emoji: '1️⃣' },
       { en: 'two',   es: 'dos',    emoji: '2️⃣' },
@@ -121,7 +121,7 @@ const MUNDOS = [
   },
   {
     id: 'family', tramo: 'peques', nombre: 'Mi familia', emoji: '👨‍👩‍👧',
-    color: 'uva', activo: false, sticker: '❤️',
+    color: 'uva', activo: true, sticker: '❤️',
     items: [
       { en: 'mom',     es: 'mamá',    emoji: '👩' },
       { en: 'dad',     es: 'papá',    emoji: '👨' },
@@ -130,12 +130,12 @@ const MUNDOS = [
       { en: 'brother', es: 'hermano', emoji: '👦' },
       { en: 'grandma', es: 'abuela',  emoji: '👵' },
       { en: 'grandpa', es: 'abuelo',  emoji: '👴' },
-      { en: 'friend',  es: 'amigo',   emoji: '🧒' }
+      { en: 'friend',  es: 'amigo',   emoji: '🧑‍🤝‍🧑' }
     ]
   },
   {
     id: 'body', tramo: 'peques', nombre: 'Mi cuerpo', emoji: '🖐️',
-    color: 'fresa', activo: false, sticker: '⭐',
+    color: 'fresa', activo: true, sticker: '⭐',
     items: [
       { en: 'hand',  es: 'mano',   emoji: '🖐️' },
       { en: 'foot',  es: 'pie',    emoji: '🦶' },
@@ -143,7 +143,7 @@ const MUNDOS = [
       { en: 'nose',  es: 'nariz',  emoji: '👃' },
       { en: 'mouth', es: 'boca',   emoji: '👄' },
       { en: 'ear',   es: 'oreja',  emoji: '👂' },
-      { en: 'hair',  es: 'pelo',   emoji: '💇' },
+      { en: 'arm',   es: 'brazo',  emoji: '💪' },
       { en: 'tooth', es: 'diente', emoji: '🦷' }
     ]
   },
