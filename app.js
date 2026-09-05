@@ -78,7 +78,13 @@ const mundosDe = t => MUNDOS.filter(m => m.tramo === t);
 const mundoPorId = id => MUNDOS.find(m => m.id === id) || null;
 const tramoPorId = id => TRAMOS.find(t => t.id === id) || null;
 const juegoHecho = (mu, ju) => !!S.hechos[mu + ':' + ju];
-const mundoCompleto = mu => JUEGOS.every(j => juegoHecho(mu, j.id));
+/* Cada tramo juega lo suyo: «Léelo» solo aparece a partir de los 6 años,
+   cuando el niño ya lee y la palabra escrita le enseña algo. */
+const juegosDe = m => JUEGOS.filter(j => !j.soloTramos || (m && j.soloTramos.includes(m.tramo)));
+const mundoCompleto = mu => {
+  const m = mundoPorId(mu);
+  return !!m && juegosDe(m).every(j => juegoHecho(mu, j.id));
+};
 
 function anotar(mundoId, juegoId, estrellas) {
   S.hechos[mundoId + ':' + juegoId] = { estrellas: estrellas, fecha: hoyClave() };
@@ -353,14 +359,15 @@ function vistaMapa() {
           '<p class="sub">Elige un mundo para jugar.</p><div class="mundos">';
   ms.forEach(m => {
     const listo = mundoCompleto(m.id);
-    const hechos = JUEGOS.filter(j => juegoHecho(m.id, j.id)).length;
+    const lista = juegosDe(m);
+    const hechos = lista.filter(j => juegoHecho(m.id, j.id)).length;
     h += '<button class="mundo' + (m.activo ? '' : ' bloqueado') + '" data-c="' + m.color + '" type="button" ' +
          'data-act="' + (m.activo ? 'mundo' : 'pronto') + '" data-id="' + m.id + '">' +
          (listo ? '<span class="listo" aria-hidden="true">🏅</span>' : '') +
          (m.activo ? '' : '<span class="candado" aria-hidden="true">🔒</span>') +
          '<span class="em" aria-hidden="true">' + m.emoji + '</span>' +
          '<b>' + esc(m.nombre) + '</b>' +
-         '<span class="n">' + (m.activo ? hechos + ' de ' + JUEGOS.length + ' juegos' : 'Pronto') + '</span>' +
+         '<span class="n">' + (m.activo ? hechos + ' de ' + lista.length + ' juegos' : 'Pronto') + '</span>' +
          '</button>';
   });
   h += '</div>';
@@ -383,7 +390,7 @@ function vistaMundo() {
   let h = '<div class="cabecera-mundo"><span class="em" aria-hidden="true">' + m.emoji + '</span>' +
           '<h1>' + esc(m.nombre) + '</h1>' +
           '<p class="sub">' + m.items.length + ' palabras en inglés</p></div><div class="juegos">';
-  JUEGOS.forEach(j => {
+  juegosDe(m).forEach(j => {
     const r = S.hechos[m.id + ':' + j.id];
     h += '<button class="juego" type="button" data-act="juego" data-id="' + j.id + '">' +
          '<span class="em" aria-hidden="true">' + j.emoji + '</span><span>' +
@@ -409,10 +416,11 @@ const Juego = {
     if (juegoId === 'descubre') {
       V.j = { tipo: 'descubre', items: m.items.slice(), tocadas: {}, paso: 0, total: m.items.length };
     }
-    else if (juegoId === 'escucha') {
+    else if (juegoId === 'escucha' || juegoId === 'leelo') {
       const total = Math.min(8, m.items.length);
       const objetivos = mezcla(porFlojera(m.items).slice(0, Math.max(total, 6))).slice(0, total);
-      V.j = { tipo: 'escucha', items: m.items, ronda: null, cola: objetivos, paso: 0, total: total, limpias: 0, fallos: 0, auto: true };
+      V.j = { tipo: 'escucha', leer: juegoId === 'leelo', items: m.items, ronda: null,
+              cola: objetivos, paso: 0, total: total, limpias: 0, fallos: 0, auto: juegoId !== 'leelo' };
       Juego.siguienteEscucha(true);
     }
     else if (juegoId === 'parejas') {
@@ -448,6 +456,7 @@ const Juego = {
   },
   suena() {
     const j = V.j; if (!j || !j.ronda) return;
+    if (j.leer) return;                       // en «Léelo» la pista es la palabra, no la voz
     const b = document.querySelector('.altavoz');
     if (b) b.classList.add('sonando');
     Voz.di(j.ronda.objetivo.en, () => { const x = document.querySelector('.altavoz'); if (x) x.classList.remove('sonando'); });
@@ -616,10 +625,19 @@ function vistaDescubre(j, m) {
 function vistaEscucha(j) {
   if (!j.ronda) return '<div class="escenario centro">' + mascota('feliz') + '<p class="instruccion">Un momento…</p></div>';
   const r = j.ronda;
-  let h = '<div class="escenario centro">' + mascota(r.resuelta ? 'feliz' : 'piensa') +
-    '<button class="altavoz" type="button" data-act="repite" aria-label="Escuchar la palabra otra vez">🔊</button>' +
-    '<p class="instruccion" id="instruccion">¿Cuál es?<small>Toca el altavoz para oírlo otra vez</small></p>' +
-    '<div class="opciones">';
+  /* «Léelo»: la pista es la palabra escrita, no la voz. El altavoz sigue
+     ahí para oírla, pero solo después de intentar leerla. */
+  const pista = j.leer
+    ? '<div class="palabra-leer">' + esc(r.objetivo.en) + '</div>' +
+      '<button class="bt fantasma" style="width:auto;padding:10px 22px;min-height:52px" type="button" ' +
+      'data-act="oir-leelo">🔊 ¿Cómo suena?</button>'
+    : '<button class="altavoz" type="button" data-act="repite" aria-label="Escuchar la palabra otra vez">🔊</button>';
+
+  let h = '<div class="escenario centro">' + mascota(r.resuelta ? 'feliz' : 'piensa') + pista +
+    '<p class="instruccion" id="instruccion">' +
+    (j.leer ? 'Lee y toca el dibujo<small>Si no la reconoces, escúchala</small>'
+            : '¿Cuál es?<small>Toca el altavoz para oírlo otra vez</small>') +
+    '</p><div class="opciones">';
   r.opciones.forEach(o => {
     h += '<button class="opcion" type="button" data-act="elige" data-en="' + esc(o.en) + '" aria-label="Opción">' +
          '<span aria-hidden="true">' + o.emoji + '</span></button>';
@@ -884,6 +902,10 @@ document.addEventListener('click', function (ev) {
   }
   if (act === 'fin-descubre') { Juego.cierra(3); return; }
   if (act === 'repite') { Juego.suena(); return; }
+  if (act === 'oir-leelo') {
+    const j = V.j; if (j && j.ronda) Voz.di(j.ronda.objetivo.en);
+    return;
+  }
   if (act === 'elige')  { Juego.eligeEscucha(el.dataset.en, el); return; }
   if (act === 'voltea') { Juego.voltea(Number(el.dataset.uid)); return; }
   if (act === 'dilo-oir')  { Juego.diloEscucha(); return; }

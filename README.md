@@ -123,28 +123,33 @@ mundo que tenga al menos 6 palabras. No hay que tocar `app.js`.
 
 ## Estado actual
 
-Prototipo jugable. Completo y probado:
+Los tres tramos jugables. **14 mundos, 154 palabras, 64 juegos.**
 
-- Portada con selección de tramo
-- Mapa de mundos con progreso y candados
-- Los **seis mundos de Peques** jugables enteros: Animales (12), Colores (10), Comida (10),
-  Números (10), Mi familia (8) y Mi cuerpo (8) — **58 palabras**
-- Los cuatro juegos, con estrellas, pegatinas y confeti
-- Álbum de pegatinas
-- Zona de familia: métricas, límite de tiempo diario, voz, velocidad, tema, reinicio
-- Modo claro y oscuro
-- Instalable y funcional sin conexión
+| Tramo | Mundos | Palabras | Juegos por mundo |
+|---|---|---|---|
+| Peques 3–5 | Animales, Colores, Comida, Números, Mi familia, Mi cuerpo | 58 | 4 |
+| Medianos 6–8 | La escuela, Acciones, La ropa, El clima | 48 | 5 |
+| Grandes 9–10 | La ciudad, Deportes, Viajar, Los trabajos | 48 | 5 |
+
+**Los cinco juegos:**
+
+1. **Descubre** — toca cada dibujo y lo oyes. No se puede fallar; calienta.
+2. **Escucha** — oyes la palabra, tocas el dibujo. El núcleo del método.
+3. **Léelo** — *solo 6–10 años.* Ves la palabra **escrita**, sin audio, y tocas el
+   dibujo. Hay un botón para oírla si se atasca. Es lo que separa a quien ya lee.
+4. **Parejas** — memoria; cada carta que se voltea repite la palabra en voz alta.
+5. **Dilo tú** — se graba y se escucha. Sin puntaje y sin juicio.
+
+Terminar todos los juegos de un mundo da su pegatina. Catorce pegatinas en total.
+
+También: portada con selección de edad, álbum, zona de familia (métricas, límite de
+tiempo diario, voz, velocidad, tema, reinicio), modo claro y oscuro, instalable
+como app y funcionando sin conexión.
 
 ## Lo siguiente
 
-1. Tramo **Medianos (6–8)**: fonética, palabra escrita, ortografía por arrastre.
-2. Tramo **Grandes (9–10)**: mini-historias, frases y conversación.
+1. Fonética real para Medianos: qué sonido hace cada letra, formar la palabra
+   arrastrando letras. Necesita una mecánica nueva, no solo vocabulario.
+2. Mini-historias y conversación para Grandes.
 3. Perfiles: varios niños en el mismo aparato.
 4. Ilustraciones SVG propias sustituyendo los emoji, mundo por mundo.
-5. Más mundos de Peques (la ropa, la casa, el clima, los juguetes).
-
-Los cinco mundos con candado (La escuela, Acciones, Los sonidos, Mini-historias y
-Habla conmigo) están vacíos a propósito: no les falta vocabulario, les faltan
-**mecánicas**. Los cuatro juegos actuales son audio → imagen, que es lo correcto
-para quien no lee; a un niño de 7 que ya lee lo aburren en dos minutos. Medianos
-necesita fonética y ortografía; Grandes, frases y comprensión.

@@ -30,9 +30,9 @@ const TRAMOS = [
     edad: '6 a 8 años',
     emoji: '🚀',
     color: 'cielo',
-    lema: 'Sonidos y primeras letras',
-    desc: 'La palabra empieza a verse escrita. Fonética, letra a letra.',
-    activo: false
+    lema: 'Leer y escuchar',
+    desc: 'Ya lee. A la palabra hablada se le suma la palabra escrita.',
+    activo: true
   },
   {
     id: 'grandes',
@@ -40,9 +40,9 @@ const TRAMOS = [
     edad: '9 a 10 años',
     emoji: '🏆',
     color: 'uva',
-    lema: 'Frases e historias',
-    desc: 'Frases cortas, mini-historias y hablar de verdad.',
-    activo: false
+    lema: 'Vocabulario de verdad',
+    desc: 'Vocabulario más ancho, leyendo y diciéndolo en voz alta.',
+    activo: true
   }
 ];
 
@@ -148,14 +148,153 @@ const MUNDOS = [
     ]
   },
 
-  /* ---------- MEDIANOS · 6 a 8 (aún no) ---------- */
-  { id: 'school',  tramo: 'medianos', nombre: 'La escuela', emoji: '🎒', color: 'cielo', activo: false, sticker: '📘', items: [] },
-  { id: 'actions', tramo: 'medianos', nombre: 'Acciones',   emoji: '🏃', color: 'hierba', activo: false, sticker: '⚡', items: [] },
-  { id: 'letters', tramo: 'medianos', nombre: 'Los sonidos', emoji: '🔤', color: 'sol', activo: false, sticker: '🔠', items: [] },
+  /* ---------- MEDIANOS · 6 a 8 años ---------- */
+  {
+    id: 'school', tramo: 'medianos', nombre: 'La escuela', emoji: '🎒',
+    color: 'cielo', activo: true, sticker: '📘',
+    items: [
+      { en: 'school',    es: 'escuela',  emoji: '🏫' },
+      { en: 'teacher',   es: 'maestra',  emoji: '👩‍🏫' },
+      { en: 'book',      es: 'libro',    emoji: '📕' },
+      { en: 'pencil',    es: 'lápiz',    emoji: '✏️' },
+      { en: 'pen',       es: 'bolígrafo', emoji: '🖊️' },
+      { en: 'backpack',  es: 'mochila',  emoji: '🎒' },
+      { en: 'notebook',  es: 'cuaderno', emoji: '📓' },
+      { en: 'scissors',  es: 'tijeras',  emoji: '✂️' },
+      { en: 'ruler',     es: 'regla',    emoji: '📏' },
+      { en: 'paint',     es: 'pintura',  emoji: '🎨' },
+      { en: 'clock',     es: 'reloj',    emoji: '🕐' },
+      { en: 'bell',      es: 'campana',  emoji: '🔔' }
+    ]
+  },
+  {
+    id: 'actions', tramo: 'medianos', nombre: 'Acciones', emoji: '🏃',
+    color: 'hierba', activo: true, sticker: '⚡',
+    items: [
+      { en: 'run',   es: 'correr',  emoji: '🏃' },
+      { en: 'walk',  es: 'caminar', emoji: '🚶' },
+      { en: 'jump',  es: 'saltar',  emoji: '🤸' },
+      { en: 'swim',  es: 'nadar',   emoji: '🏊' },
+      { en: 'sleep', es: 'dormir',  emoji: '😴' },
+      { en: 'eat',   es: 'comer',   emoji: '🍽️' },
+      { en: 'drink', es: 'beber',   emoji: '🥤' },
+      { en: 'read',  es: 'leer',    emoji: '📖' },
+      { en: 'write', es: 'escribir', emoji: '✍️' },
+      { en: 'sing',  es: 'cantar',  emoji: '🎤' },
+      { en: 'dance', es: 'bailar',  emoji: '💃' },
+      { en: 'think', es: 'pensar',  emoji: '🤔' }
+    ]
+  },
+  {
+    id: 'clothes', tramo: 'medianos', nombre: 'La ropa', emoji: '👕',
+    color: 'sol', activo: true, sticker: '👟',
+    items: [
+      { en: 'shirt',    es: 'camisa',    emoji: '👕' },
+      { en: 'pants',    es: 'pantalón',  emoji: '👖' },
+      { en: 'dress',    es: 'vestido',   emoji: '👗' },
+      { en: 'shoes',    es: 'zapatos',   emoji: '👟' },
+      { en: 'socks',    es: 'medias',    emoji: '🧦' },
+      { en: 'hat',      es: 'gorro',     emoji: '🧢' },
+      { en: 'coat',     es: 'abrigo',    emoji: '🧥' },
+      { en: 'gloves',   es: 'guantes',   emoji: '🧤' },
+      { en: 'scarf',    es: 'bufanda',   emoji: '🧣' },
+      { en: 'glasses',  es: 'lentes',    emoji: '👓' },
+      { en: 'boots',    es: 'botas',     emoji: '🥾' },
+      { en: 'backpack', es: 'mochila',   emoji: '🎒' }
+    ]
+  },
+  {
+    id: 'weather', tramo: 'medianos', nombre: 'El clima', emoji: '🌦️',
+    color: 'uva', activo: true, sticker: '🌈',
+    items: [
+      { en: 'sun',      es: 'sol',       emoji: '☀️' },
+      { en: 'rain',     es: 'lluvia',    emoji: '🌧️' },
+      { en: 'cloud',    es: 'nube',      emoji: '☁️' },
+      { en: 'wind',     es: 'viento',    emoji: '🌬️' },
+      { en: 'snow',     es: 'nieve',     emoji: '❄️' },
+      { en: 'storm',    es: 'tormenta',  emoji: '⛈️' },
+      { en: 'rainbow',  es: 'arcoíris',  emoji: '🌈' },
+      { en: 'moon',     es: 'luna',      emoji: '🌙' },
+      { en: 'star',     es: 'estrella',  emoji: '⭐' },
+      { en: 'tree',     es: 'árbol',     emoji: '🌳' },
+      { en: 'flower',   es: 'flor',      emoji: '🌸' },
+      { en: 'mountain', es: 'montaña',   emoji: '⛰️' }
+    ]
+  },
 
-  /* ---------- GRANDES · 9 a 10 (aún no) ---------- */
-  { id: 'stories', tramo: 'grandes', nombre: 'Mini-historias', emoji: '📖', color: 'uva', activo: false, sticker: '📚', items: [] },
-  { id: 'talk',    tramo: 'grandes', nombre: 'Habla conmigo', emoji: '💬', color: 'cielo', activo: false, sticker: '🎤', items: [] }
+  /* ---------- GRANDES · 9 a 10 años ---------- */
+  {
+    id: 'city', tramo: 'grandes', nombre: 'La ciudad', emoji: '🏙️',
+    color: 'cielo', activo: true, sticker: '🗽',
+    items: [
+      { en: 'house',    es: 'casa',       emoji: '🏠' },
+      { en: 'hospital', es: 'hospital',   emoji: '🏥' },
+      { en: 'store',    es: 'tienda',     emoji: '🏪' },
+      { en: 'bank',     es: 'banco',      emoji: '🏦' },
+      { en: 'park',     es: 'parque',     emoji: '🏞️' },
+      { en: 'bridge',   es: 'puente',     emoji: '🌉' },
+      { en: 'church',   es: 'iglesia',    emoji: '⛪' },
+      { en: 'market',   es: 'mercado',    emoji: '🛒' },
+      { en: 'street',   es: 'calle',      emoji: '🛣️' },
+      { en: 'library',  es: 'biblioteca', emoji: '📚' },
+      { en: 'factory',  es: 'fábrica',    emoji: '🏭' },
+      { en: 'stadium',  es: 'estadio',    emoji: '🏟️' }
+    ]
+  },
+  {
+    id: 'sports', tramo: 'grandes', nombre: 'Deportes', emoji: '⚽',
+    color: 'hierba', activo: true, sticker: '🏆',
+    items: [
+      { en: 'soccer',     es: 'fútbol',     emoji: '⚽' },
+      { en: 'basketball', es: 'baloncesto', emoji: '🏀' },
+      { en: 'tennis',     es: 'tenis',      emoji: '🎾' },
+      { en: 'swimming',   es: 'natación',   emoji: '🏊' },
+      { en: 'running',    es: 'atletismo',  emoji: '🏃' },
+      { en: 'cycling',    es: 'ciclismo',   emoji: '🚴' },
+      { en: 'boxing',     es: 'boxeo',      emoji: '🥊' },
+      { en: 'skating',    es: 'patinaje',   emoji: '⛸️' },
+      { en: 'volleyball', es: 'vóley',      emoji: '🏐' },
+      { en: 'baseball',   es: 'béisbol',    emoji: '⚾' },
+      { en: 'medal',      es: 'medalla',    emoji: '🏅' },
+      { en: 'team',       es: 'equipo',     emoji: '🤾' }
+    ]
+  },
+  {
+    id: 'travel', tramo: 'grandes', nombre: 'Viajar', emoji: '✈️',
+    color: 'sol', activo: true, sticker: '🧳',
+    items: [
+      { en: 'airplane',  es: 'avión',     emoji: '✈️' },
+      { en: 'train',     es: 'tren',      emoji: '🚆' },
+      { en: 'bus',       es: 'autobús',   emoji: '🚌' },
+      { en: 'car',       es: 'carro',     emoji: '🚗' },
+      { en: 'ship',      es: 'barco',     emoji: '🚢' },
+      { en: 'bicycle',   es: 'bicicleta', emoji: '🚲' },
+      { en: 'suitcase',  es: 'maleta',    emoji: '🧳' },
+      { en: 'passport',  es: 'pasaporte', emoji: '🛂' },
+      { en: 'map',       es: 'mapa',      emoji: '🗺️' },
+      { en: 'hotel',     es: 'hotel',     emoji: '🏨' },
+      { en: 'beach',     es: 'playa',     emoji: '🏖️' },
+      { en: 'ticket',    es: 'boleto',    emoji: '🎫' }
+    ]
+  },
+  {
+    id: 'jobs', tramo: 'grandes', nombre: 'Los trabajos', emoji: '👷',
+    color: 'fresa', activo: true, sticker: '💼',
+    items: [
+      { en: 'doctor',     es: 'doctor',     emoji: '👨‍⚕️' },
+      { en: 'nurse',      es: 'enfermera',  emoji: '👩‍⚕️' },
+      { en: 'teacher',    es: 'maestro',    emoji: '👨‍🏫' },
+      { en: 'farmer',     es: 'agricultor', emoji: '👨‍🌾' },
+      { en: 'cook',       es: 'cocinero',   emoji: '👨‍🍳' },
+      { en: 'mechanic',   es: 'mecánico',   emoji: '👨‍🔧' },
+      { en: 'police',     es: 'policía',    emoji: '👮' },
+      { en: 'firefighter', es: 'bombero',   emoji: '👨‍🚒' },
+      { en: 'pilot',      es: 'piloto',     emoji: '👨‍✈️' },
+      { en: 'singer',     es: 'cantante',   emoji: '👨‍🎤' },
+      { en: 'scientist',  es: 'científico', emoji: '👩‍🔬' },
+      { en: 'builder',    es: 'albañil',    emoji: '👷' }
+    ]
+  }
 ];
 
 /* ── JUEGOS de cada mundo, en orden ──────────────────────────
@@ -168,6 +307,7 @@ const MUNDOS = [
 const JUEGOS = [
   { id: 'descubre', nombre: 'Descubre',  emoji: '👀', pista: 'Toca cada dibujo y escucha' },
   { id: 'escucha',  nombre: 'Escucha',   emoji: '👂', pista: 'Escucha y toca el correcto' },
+  { id: 'leelo',    nombre: 'Léelo',     emoji: '📖', pista: 'Lee la palabra y toca el dibujo', soloTramos: ['medianos', 'grandes'] },
   { id: 'parejas',  nombre: 'Parejas',   emoji: '🃏', pista: 'Encuentra las parejas iguales' },
   { id: 'dilo',     nombre: 'Dilo tú',   emoji: '🎤', pista: 'Grábate diciéndolo' }
 ];
