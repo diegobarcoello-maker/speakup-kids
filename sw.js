@@ -7,14 +7,14 @@
    hay y descarga la versión nueva para la próxima vez.
    ============================================================ */
 
-const VERSION = 'speakup-kids-v4';
+const VERSION = 'speakup-kids-v5';
 
 const ESENCIALES = [
   './',
   './index.html',
-  './styles.css?v=4',
-  './data.js?v=4',
-  './app.js?v=4',
+  './styles.css?v=5',
+  './data.js?v=5',
+  './app.js?v=5',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',

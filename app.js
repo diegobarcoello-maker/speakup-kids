@@ -35,6 +35,7 @@ function espera(ms) { return new Promise(r => setTimeout(r, ms)); }
 const CLAVE = 'speakupkids.v1';
 const POR_DEFECTO = {
   tramo: null,
+  nombre: '',             // el del niño; lo escribe el adulto, no él
   estrellas: 0,
   stickers: {},          // mundoId -> true
   hechos: {},            // 'mundo:juego' -> { estrellas, fecha }
@@ -97,6 +98,14 @@ function acierto(en) { S.conocidas[en] = (S.conocidas[en] || 0) + 1; }
 function porFlojera(items) {
   return items.slice().sort((a, b) => (S.conocidas[a.en] || 0) - (S.conocidas[b.en] || 0));
 }
+const suNombre = () => (S.nombre || '').trim();
+/* «¡Muy bien!» → «¡Muy bien, Martina!» */
+function conNombre(frase) {
+  const n = suNombre();
+  if (!n) return frase;
+  return frase.replace(/!$/, ', ' + n + '!');
+}
+
 function palabrasAprendidas() { return Object.keys(S.conocidas).filter(k => S.conocidas[k] >= 3).length; }
 
 /* ══════════════ 3. VOZ ══════════════ */
@@ -274,6 +283,7 @@ function pinta() {
   if      (V.pantalla === 'stop')    html = vistaStop();
   else if (!S.tramo)                 html = vistaPortada();
   else if (V.pantalla === 'portada') html = vistaPortada();
+  else if (V.pantalla === 'nombre')  html = vistaNombre();
   else if (V.pantalla === 'mapa')    html = vistaMapa();
   else if (V.pantalla === 'mundo')   html = vistaMundo();
   else if (V.pantalla === 'juego')   html = vistaJuego();
@@ -289,6 +299,7 @@ function pinta() {
 function pintaBarra() {
   const barra = $('#topbar'), medio = $('#topbar-mid'), atras = $('#btn-atras');
   const enPortada = V.pantalla === 'portada' || !S.tramo;
+  if (V.pantalla === 'nombre') { barra.hidden = false; atras.hidden = false; medio.innerHTML = ''; return; }
   barra.hidden = V.pantalla === 'stop';
   atras.hidden = enPortada;
 
@@ -350,13 +361,35 @@ function vistaPortada() {
   return h;
 }
 
+/* ══════════════ 10b. ¿CÓMO SE LLAMA? ══════════════
+   Lo escribe el adulto, no el niño: a los tres años no se teclea.
+   Se puede saltar — el nombre es un cariño, no un requisito.   */
+function vistaNombre() {
+  const t = tramoPorId(S.tramo) || TRAMOS[0];
+  return '<div class="escenario centro">' + mascota('feliz') +
+    '<h1 style="text-align:center;margin:0">¿Cómo se llama?</h1>' +
+    '<p class="sub" style="text-align:center;margin:0">' +
+    'Para saludarle por su nombre y felicitarle cuando acierte.</p>' +
+    '<input id="elnombre" class="campo-nombre" type="text" inputmode="text" ' +
+    'autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" ' +
+    'maxlength="20" placeholder="Su nombre" value="' + esc(S.nombre || '') + '" ' +
+    'aria-label="Nombre del niño o de la niña" data-autofocus>' +
+    '<button class="bt" type="button" data-act="pon-nombre">¡Vamos! ' + t.emoji + '</button>' +
+    '<button class="bt fantasma" type="button" data-act="sin-nombre">Ahora no</button>' +
+    '<p class="nota" style="text-align:center">Se guarda solo en este aparato. ' +
+    'Se puede cambiar cuando quieras en ⚙️ → Zona de familia.</p>' +
+    '</div>';
+}
+
 /* ══════════════ 11. MAPA DE MUNDOS ══════════════ */
 function vistaMapa() {
   const t = tramoPorId(S.tramo) || TRAMOS[0];
   const ms = mundosDe(t.id);
   const gan = Object.keys(S.stickers).length;
-  let h = '<h1>' + t.emoji + ' ' + esc(t.nombre) + '</h1>' +
-          '<p class="sub">Elige un mundo para jugar.</p><div class="mundos">';
+  const n = suNombre();
+  let h = '<h1>' + t.emoji + ' ' + (n ? '¡Hola, ' + esc(n) + '!' : esc(t.nombre)) + '</h1>' +
+          '<p class="sub">' + (n ? t.nombre + ' · elige un mundo para jugar.' : 'Elige un mundo para jugar.') +
+          '</p><div class="mundos">';
   ms.forEach(m => {
     const listo = mundoCompleto(m.id);
     const lista = juegosDe(m);
@@ -469,7 +502,7 @@ const Juego = {
       boton.classList.add('bien');
       Son.bien(); acierto(en);
       if (r.errores === 0) j.limpias++;
-      const t = $('#instruccion'); if (t) t.textContent = alAzar(BIEN);
+      const t = $('#instruccion'); if (t) t.textContent = conNombre(alAzar(BIEN));
       const car = document.querySelector('.mascota');
       if (car) { car.classList.remove('piensa'); car.classList.add('feliz'); }
       guardar();
@@ -690,10 +723,10 @@ function vistaPremio() {
   let h = '<div class="premio">';
   if (p.completo && m) {
     h += '<span class="sticker" aria-hidden="true">' + m.sticker + '</span>' +
-         '<h1>¡Mundo terminado!</h1>' +
+         '<h1>' + (suNombre() ? '¡Lo lograste, ' + esc(suNombre()) + '!' : '¡Mundo terminado!') + '</h1>' +
          '<p class="sub">Ganaste la pegatina de ' + esc(m.nombre) + ' para tu álbum.</p>';
   } else {
-    h += mascota('feliz') + '<h1>' + alAzar(BIEN) + '</h1>';
+    h += mascota('feliz') + '<h1>' + conNombre(alAzar(BIEN)) + '</h1>';
   }
   h += '<div class="estrellas-premio" aria-label="' + p.estrellas + ' estrellas">' +
        Array.from({ length: 3 }, (_, i) => '<i>' + (i < p.estrellas ? '⭐' : '☆') + '</i>').join('') + '</div>';
@@ -710,7 +743,7 @@ function vistaAlbum() {
   const t = tramoPorId(S.tramo);
   const lista = MUNDOS.filter(m => !t || m.tramo === t.id);
   const gan = lista.filter(m => S.stickers[m.id]).length;
-  let h = '<h1>📔 Mi álbum</h1><p class="sub">' + gan + ' de ' + lista.length + ' pegatinas. Se gana una al terminar los cuatro juegos de un mundo.</p><div class="album">';
+  let h = '<h1>📔 ' + (suNombre() ? 'El álbum de ' + esc(suNombre()) : 'Mi álbum') + '</h1><p class="sub">' + gan + ' de ' + lista.length + ' pegatinas. Se gana una al terminar los cuatro juegos de un mundo.</p><div class="album">';
   lista.forEach(m => {
     const tiene = !!S.stickers[m.id];
     h += '<div class="pegatina ' + (tiene ? 'tiene' : 'no') + '" title="' + esc(m.nombre) + '" aria-label="' + esc(m.nombre) + (tiene ? ' conseguida' : ' por conseguir') + '">' +
@@ -794,6 +827,12 @@ const Padres = {
       '<div class="metrica"><b>' + Math.round(semana / 60) + '\'</b><span>últimos 7 días</span></div>' +
       '</div>';
 
+    /* nombre del niño */
+    h += '<div class="fila"><div><b>Nombre</b><span class="d">Con quién habla la app.</span></div>' +
+      '<input type="text" data-act="set-texto" data-k="nombre" maxlength="20" ' +
+      'autocomplete="off" autocapitalize="words" placeholder="Sin nombre" value="' +
+      esc(S.nombre || '') + '"></div>';
+
     /* tiempo de pantalla */
     h += '<div class="fila"><div><b>Tiempo al día</b><span class="d">Cuando se acaba, la app se despide sola.</span></div>' +
       '<select data-act="set" data-k="limite">' +
@@ -872,7 +911,18 @@ document.addEventListener('click', function (ev) {
 
   /* navegación */
   if (act === 'nada' || act === 'pronto') { Son.toc(); tostada('Este todavía está en construcción 🚧'); return; }
-  if (act === 'tramo')  { Son.toc(); S.tramo = el.dataset.id; guardar(); irA('mapa'); return; }
+  if (act === 'tramo')  {
+    Son.toc(); S.tramo = el.dataset.id; guardar();
+    irA(suNombre() ? 'mapa' : 'nombre');
+    return;
+  }
+  if (act === 'pon-nombre') {
+    const campo = document.getElementById('elnombre');
+    S.nombre = (campo && campo.value || '').trim().slice(0, 20);
+    guardar(); Son.bien(); irA('mapa');
+    return;
+  }
+  if (act === 'sin-nombre') { Son.toc(); irA('mapa'); return; }
   if (act === 'mundo')  { Son.toc(); irA('mundo', { mundo: el.dataset.id }); return; }
   if (act === 'album')  { Son.toc(); irA('album'); return; }
   if (act === 'juego')  { Juego.empieza(el.dataset.id); return; }
@@ -916,6 +966,12 @@ document.addEventListener('click', function (ev) {
 
 /* selects de la zona de familia */
 document.addEventListener('change', function (ev) {
+  const texto = ev.target.closest('[data-act="set-texto"]');
+  if (texto) {
+    S[texto.dataset.k] = (texto.value || '').trim().slice(0, 20);
+    guardar();
+    return;
+  }
   const el = ev.target.closest('[data-act="set"]'); if (!el) return;
   const k = el.dataset.k;
   let v = el.value;
